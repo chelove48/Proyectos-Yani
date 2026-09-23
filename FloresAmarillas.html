@@ -1,0 +1,190 @@
+<!-- Le dice al navegador que este es un documento HTML5 moderno -->
+<!DOCTYPE html>
+<!-- Etiqueta principal que envuelve todo. 'es' indica que el idioma es español -->
+<html lang="es">
+<head>
+    <!-- Define que el texto usa caracteres especiales como la 'ñ' o tildes -->
+    <meta charset="UTF-8">
+    <!-- Hace que la página se adapte bien a las pantallas de los celulares -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- El título que aparece en la pestaña del navegador -->
+    <title>Gift Card</title>
+
+<style>
+    /* El asterisco (*) selecciona TODOS los elementos de la página */
+    *{
+        margin: 0; /* Quita el margen exterior que los navegadores ponen por defecto */
+        padding: 0; /* Quita el espacio interior por defecto */
+        box-sizing: border-box; /* Asegura que los bordes y espaciados no deformen el tamaño de las cajas */
+    }
+
+    /* Estilos para el fondo y la ventana completa */
+    body{
+        height: 100vh; /* La altura ocupa exactamente el 100% de la pantalla visible (viewport height) */
+        background: linear-gradient(135deg, #ffec9a, #fad0c4); /* Crea un fondo con degradado de amarillo a rosa */
+        display: flex; /* Activa flexbox, una forma moderna de alinear cosas */
+        justify-content: center; /* Centra el contenido horizontalmente */
+        align-items: center; /* Centra el contenido verticalmente */
+        overflow: hidden; /* Oculta cualquier cosa que se salga de la pantalla (como las flores cuando suben o bajan) */
+        font-family: 'Segoe UI', sans-serif; /* Define el tipo de letra */
+    }
+
+    /* Estilos de la carta blanca */
+    .letter{
+        position: absolute; /* Permite mover la carta libremente sin afectar otras cosas */
+        width: 90%; /* Ancho de la carta (ocupa el 90% de la pantalla) */
+        height: 180px; /* Altura de la carta */
+        background: white; /* Color de fondo blanco */
+        left: 5%; /* La empuja un 5% desde la izquierda para que quede centrada (5% + 90% ancho + 5% = 100%) */
+        top: 80px; /* La separa 80 píxeles desde arriba */
+        border-radius: 10px; /* Redondea las esquinas de la carta */
+        padding: 20px; /* Espacio interior para que el texto no toque los bordes */
+        text-align: center; /* Centra el texto de la carta */
+        transform: translateY(80px); /* Empuja la carta 80 píxeles hacia abajo en su posición inicial */
+        transition: 1s; /* Hace que cualquier cambio (como moverse al hacer clic) tarde 1 segundo de forma suave */
+        z-index: 1; /* Asegura que la carta se vea por encima de las flores que se crearán de fondo */
+        overflow: auto; /* Si el texto es muy largo, agrega una barra de desplazamiento a la carta */
+        cursor: pointer; /* Cambia el cursor por una "manita" para indicar que se le puede hacer clic */
+    }
+
+    /* Estilos para el título principal dentro de la carta */
+    .letter h1{
+        color: #ceff47; /* Le da un color amarillo verdoso al texto */
+        margin-bottom: 10px; /* Separa el título 10 píxeles del mensaje de abajo */
+    }
+
+    /* Clase que se añade con JavaScript cuando hacemos clic */
+    .letter.open{
+        /* Mueve la carta hacia arriba (-120 píxeles). Como hay un "transition: 1s" arriba, se ve como una animación */
+        transform: translateY(10px); 
+    }
+/* --- NUEVO: Estilos de la imagen de los tulipanes --- */
+    .tulips-img {
+        position: absolute;
+        width: 200px; /* Tamaño de la imagen, puedes ajustarlo si la quieres más grande o pequeña */
+        bottom: 10%; /* Posición desde la parte inferior de la pantalla */
+        left: 50%; /* La movemos al centro horizontal */
+        transform: translate(-50%, 50px); /* La centramos exactamente y la empujamos un poquito hacia abajo */
+        opacity: 0; /* Empieza totalmente transparente (invisible) */
+        transition: 1s ease-in-out; /* Animación suave de 1 segundo */
+        z-index: 1; /* Se queda por debajo de la carta */
+        pointer-events: none; /* Para que la imagen no bloquee los clics */
+    }
+
+    /* Clase que hará que la imagen aparezca */
+    .tulips-img.show {
+        opacity: 1; /* Se vuelve visible */
+        transform: translate(-50%, 0); /* Sube suavemente a su posición final */
+    }
+
+    /* Estilos base para las flores que se crearán con JavaScript */
+    .flowers{
+        position: absolute; /* Para poder ponerlas en cualquier parte de la pantalla */
+        animation: float 5s linear infinite; /* Ejecuta la animación llamada "float" (dura 5 seg, velocidad constante, repite siempre) */
+    }
+
+    /* Define los pasos de la animación llamada "float" (flotar) */
+    @keyframes float{
+        from{
+            transform: translateY(100vh); /* Empieza desde el fondo de la pantalla (100% de la altura hacia abajo) */
+            opacity: 1; /* Totalmente visible */
+        }
+        to{
+            transform: translateY(-100px); /* Termina 100 píxeles por encima del borde superior de la pantalla */
+            opacity: 0; /* Se vuelve transparente (invisible) al llegar arriba */
+        }
+    }
+
+    /* Estilos para el texto del mensaje */
+    .message{
+        line-height: 1.6; /* Aumenta el espacio entre las líneas del texto para que sea más fácil de leer */
+        color: #444; /* Un color gris oscuro, no negro puro, para que canse menos la vista */
+    }
+</style>
+</head>
+
+<body>
+
+    <!-- La carta. Le pusimos id="letter" para poder encontrarla con JavaScript -->
+    <div id="letter" class="letter">
+        <h1>💛 Feliz inicio de primavera 💛</h1>
+        
+        <div class="message">
+            Ahora sé lo importante y valioso que el inicio de primavera es para ti y si es valioso para ti, lo haré valioso para mí
+            <!-- <br> da un salto de línea (como presionar Enter) -->
+            <br><br>
+            Yo sé que no te mandé flores amarillas pero lo intenté compensar a mi manera
+        </div>
+    </div>
+    <!-- NUEVO: Agregamos la imagen de los tulipanes aquí -->
+    <img id="tulips" class="tulips-img" src="floresamarillas.jpeg" alt="Tulipanes Amarillos">
+
+<!-- Etiqueta de audio oculta que guarda la música -->
+<audio id="music" loop>
+    <!-- loop hace que la canción vuelva a empezar cuando termine -->
+    <!-- src="musica.mp3" le dice al navegador dónde está el archivo de audio -->
+    <source src="BachataRosa.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Aquí empieza la lógica (el "cerebro") de la página -->
+<script>
+    // Buscamos en el HTML el elemento con el ID "letter" y lo guardamos en una variable
+    const letter = document.getElementById("letter");
+    // Buscamos en el HTML el elemento con el ID "music" y lo guardamos
+    const music = document.getElementById("music");
+    // NUEVO: Buscamos la imagen en el HTML
+    const tulips = document.getElementById("tulips");
+
+    // Le decimos a la carta que "escuche" cuando alguien le haga "click"
+    letter.addEventListener("click", () => {
+        
+        // toggle("open"): Si la carta no tiene la clase "open", se la pone (y sube). Si ya la tiene, se la quita (y baja).
+        letter.classList.toggle("open");
+
+        // NUEVO: Le ponemos o quitamos la clase "show" a la imagen para que aparezca/desaparezca
+        tulips.classList.toggle("show");
+
+        // Verifica si la música está pausada (o sea, si no está sonando)
+        if (music.paused) {
+            // Si está pausada, la reproduce. .catch(...) sirve por si el navegador bloquea el audio (para no generar un error grave)
+            music.play().catch(e => console.log("Error al reproducir audio:", e));
+        }
+    });
+
+    /* Lógica para crear flores flotantes. setInterval repite un código cada cierto tiempo */
+    // El 300 al final significa que este bloque se ejecutará cada 300 milisegundos (0.3 segundos)
+    setInterval(() => {
+        // Crea un nuevo elemento "div" en la memoria y lo guarda en la variable 'flowers'
+        let flowers = document.createElement("div");
+        
+        // Le asigna la clase CSS "flowers" para que tome la animación de flotar
+        flowers.className = "flowers";
+        
+        // Creamos una lista (Array) con dos opciones de texto (emojis de flores)
+        const flowerTypes = ["🌻", "🌼"];
+        
+        // Math.random() genera un número entre 0 y 1. Lo multiplicamos por 2 (length) y lo redondeamos hacia abajo.
+        // Esto elige aleatoriamente el emoji 0 ("🌻") o el emoji 1 ("🌼") y se lo mete dentro al div.
+        flowers.innerHTML = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+
+        // Le asigna una posición horizontal aleatoria. Math.random() * 100 genera un número entre 0 y 100.
+        // Le sumamos "vw" (viewport width) para que aparezca en cualquier lugar a lo ancho de la pantalla.
+        flowers.style.left = Math.random() * 100 + "vw";
+        
+        // Le asigna un tamaño aleatorio. Genera un número entre 0 y 25, y le suma 15 (el tamaño será entre 15px y 40px).
+        flowers.style.fontSize = (Math.random() * 25 + 15) + "px";
+
+        // Finalmente, agarramos la flor que acabamos de armar y la pegamos dentro del "body" del HTML para que se vea
+        document.body.appendChild(flowers);
+
+        // Como creamos flores infinitamente, setTimeout programa una acción para borrar la flor después de 5 segundos (5000ms)
+        // Si no hacemos esto, la computadora se llenaría de miles de flores invisibles y la página se pondría lentísima.
+        setTimeout(() => {
+            flowers.remove(); // Elimina esta flor específica del HTML
+        }, 5000);
+
+    }, 300); // Fin del setInterval (repite todo esto cada 300ms)
+</script>
+
+</body>
+</html>
