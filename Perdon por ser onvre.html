@@ -1,0 +1,175 @@
+<!-- Le dice al navegador que este es un documento HTML5 moderno -->
+<!DOCTYPE html>
+<!-- Etiqueta principal que envuelve todo. 'es' indica que el idioma es español -->
+<html lang="es">
+<head>
+    <!-- Define que el texto usa caracteres especiales como la 'ñ' o tildes -->
+    <meta charset="UTF-8">
+    <!-- Hace que la página se adapte bien a las pantallas de los celulares -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- El título que aparece en la pestaña del navegador -->
+    <title>Gift Card</title>
+
+<style>
+    /* El asterisco (*) selecciona TODOS los elementos de la página */
+    *{
+        margin: 0; /* Quita el margen exterior que los navegadores ponen por defecto */
+        padding: 0; /* Quita el espacio interior por defecto */
+        box-sizing: border-box; /* Asegura que los bordes y espaciados no deformen el tamaño de las cajas */
+    }
+
+    /* Estilos para el fondo y la ventana completa */
+    body{
+        height: 100vh; /* La altura ocupa exactamente el 100% de la pantalla visible (viewport height) */
+        background: linear-gradient(135deg, #d250e1, #e26ae4); /* Crea un fondo con degradado de amarillo a rosa */
+        display: flex; /* Activa flexbox, una forma moderna de alinear cosas */
+        justify-content: center; /* Centra el contenido horizontalmente */
+        align-items: center; /* Centra el contenido verticalmente */
+        overflow: hidden; /* Oculta cualquier cosa que se salga de la pantalla (como las flores cuando suben o bajan) */
+        font-family: 'Segoe UI', sans-serif; /* Define el tipo de letra */
+    }
+
+    /* Estilos de la carta blanca */
+    .letter{
+        position: absolute; /* Permite mover la carta libremente sin afectar otras cosas */
+        width: 90%; /* Ancho de la carta (ocupa el 90% de la pantalla) */
+        height: 180px; /* Altura de la carta */
+        background: white; /* Color de fondo blanco */
+        left: 5%; /* La empuja un 5% desde la izquierda para que quede centrada (5% + 90% ancho + 5% = 100%) */
+        top: 80px; /* La separa 80 píxeles desde arriba */
+        border-radius: 10px; /* Redondea las esquinas de la carta */
+        padding: 20px; /* Espacio interior para que el texto no toque los bordes */
+        text-align: center; /* Centra el texto de la carta */
+        transform: translateY(80px); /* Empuja la carta 80 píxeles hacia abajo en su posición inicial */
+        transition: 1s; /* Hace que cualquier cambio (como moverse al hacer clic) tarde 1 segundo de forma suave */
+        z-index: 1; /* Asegura que la carta se vea por encima de las flores que se crearán de fondo */
+        overflow: auto; /* Si el texto es muy largo, agrega una barra de desplazamiento a la carta */
+        cursor: pointer; /* Cambia el cursor por una "manita" para indicar que se le puede hacer clic */
+    }
+
+    /* Estilos para el título principal dentro de la carta */
+    .letter h1{
+        color: #f105ce; /* Le da un color al texto */
+        margin-bottom: 10px; /* Separa el título 10 píxeles del mensaje de abajo */
+    }
+
+    /* Clase que se añade con JavaScript cuando hacemos clic */
+    .letter.open{
+        /* Mueve la carta hacia arriba (-120 píxeles). Como hay un "transition: 1s" arriba, se ve como una animación */
+        transform: translateY(10px); 
+    }
+
+    /* Estilos de la imagen de Snoopy */
+    .snoopy-gif {
+        position: absolute;
+        width: 500px; /* Tamaño de la imagen, puedes ajustarlo si la quieres más grande o pequeña */
+        bottom: 10%; /* Posición desde la parte inferior de la pantalla */
+        left: 50%; /* La movemos al centro horizontal */
+        transform: translate(-50%, 50px); /* La centramos exactamente y la empujamos un poquito hacia abajo */
+        opacity: 0; /* Empieza totalmente transparente (invisible) */
+        transition: 1s ease-in-out; /* Animación suave de 1 segundo */
+        z-index: 1; /* Se queda por debajo de la carta */
+        pointer-events: none; /* Para que la imagen no bloquee los clics */
+    }
+
+    /* Clase que hará que la imagen aparezca */
+    .snoopy-gif.show {
+        opacity: 1; /* Se vuelve visible */
+        transform: translate(-50%, 0); /* Sube suavemente a su posición final */
+    }
+
+    /* Estilos base para los corazones que se crearán con JavaScript */
+    .corazon{
+        position: absolute; /* Para poder ponerlas en cualquier parte de la pantalla */
+        animation: float 5s linear infinite; /* Ejecuta la animación llamada "float" (dura 5 seg, velocidad constante, repite siempre) */
+    }
+
+    /* Define los pasos de la animación llamada "float" (flotar) */
+    @keyframes float{
+        from{
+            transform: translateY(100vh); /* Empieza desde el fondo de la pantalla (100% de la altura hacia abajo) */
+            opacity: 1; /* Totalmente visible */
+        }
+        to{
+            transform: translateY(-100px); /* Termina 100 píxeles por encima del borde superior de la pantalla */
+            opacity: 0; /* Se vuelve transparente (invisible) al llegar arriba */
+        }
+    }
+
+    /* Estilos para el texto del mensaje */
+    .message{
+        line-height: 1.6; /* Aumenta el espacio entre las líneas del texto para que sea más fácil de leer */
+        color: #444; /* Un color gris oscuro, no negro puro, para que canse menos la vista */
+    }
+</style>
+</head>
+
+<body>
+
+    <!-- La carta. Le pusimos id="letter" para poder encontrarla con JavaScript -->
+    <div id="letter" class="letter">
+        <h1>Perdoname de todo corazon</h1>
+        
+        <div class="message">
+            Ultimamente me he comportado como un verdadero tonto, las discusiones siempre comienzan por mi parte,
+            mi cabeza ha estado llena de ansiedad pero no es excusa, te he tratado terrible y he hecho que tu corazon se lastime por mi culpa,
+            sin darme cuenta la ultima persona que crei que te dañaria resulto ser yo, eres una increible persona me disculpo de corazon 
+            por lo mal que te he tratado, espero me puedas dar una oportunidad para enmendar mis errores, no me gustaria alejarte mas de lo que ya hice.
+            Se que esta medio repetitivo esto y probablemente estes harta de mi pero en verdad me importas mucho y quiero arreglarlo.
+            <br><br>
+            Te quiero mucho en serio perdoname por ocasionarte tanto dolor
+        </div>
+    </div>
+
+    <!-- CORREGIDO: Usamos <img> en lugar de <gif> -->
+    <img id="snoopy" class="snoopy-gif" src="snoopyperdon.gif" alt="Snoopy Sorry">
+
+    <!-- Etiqueta de audio oculta que guarda la música -->
+    <audio id="music" loop>
+        <source src="Perdoname.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Aquí empieza la lógica (el "cerebro") de la página -->
+    <script>
+        // Buscamos en el HTML los elementos necesarios
+        const letter = document.getElementById("letter");
+        const music = document.getElementById("music");
+        const snoopy = document.getElementById("snoopy");
+
+        // Evento click en la carta
+        letter.addEventListener("click", () => {
+            letter.classList.toggle("open");
+            snoopy.classList.toggle("show");
+
+            if (music.paused) {
+                music.play().catch(e => console.log("Error al reproducir audio:", e));
+            }
+        });
+
+        // Lógica para crear corazones flotantes
+        setInterval(() => {
+            let elementoCorazon = document.createElement("div");
+            elementoCorazon.className = "corazon";
+            
+            // Lista de emojis
+            const corazonTypes = ["❤️", "🩷"];
+            
+            // Selecciona un emoji al azar
+            elementoCorazon.innerHTML = corazonTypes[Math.floor(Math.random() * corazonTypes.length)];
+
+            // Posición y tamaño aleatorio
+            elementoCorazon.style.left = Math.random() * 100 + "vw";
+            elementoCorazon.style.fontSize = (Math.random() * 25 + 15) + "px";
+
+            document.body.appendChild(elementoCorazon);
+
+            // Elimina el corazón después de 5 segundos
+            setTimeout(() => {
+                elementoCorazon.remove();
+            }, 5000);
+
+        }, 300);
+    </script>
+
+</body>
+</html>
